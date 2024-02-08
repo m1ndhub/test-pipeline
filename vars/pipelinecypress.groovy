@@ -1,32 +1,24 @@
 pipeline {
     agent any
 
-    stages {
-        stage('GIT CLONE') {
+     
+        stages('GIT CLONE') {
             steps {
                 git branch: 'main', credentialsId: '76a4d053-abcf-42c6-9b6d-92926f7d99c0', url: 'https://github.com/m1ndhub/Cypress-demo-project.git'
             }
         }
-        stage('BUILD TEST') {
+        stages('BUILD TEST') {
             steps {
                 sh 'docker build -t test-cypress .'
             }
         }
-        stage('RUN TEST') {
+        stages('RUN TEST') {
             steps {
                 ansiColor('xterm') {
                     sh 'docker run -t test-cypress'
                 }
             }
         }
-        stage ('Detect SERP changed') {
-                try {
-					build job: 'cypress'
-                } catch (err) {
-                    echo "ngo ..."
-                }
-			}
-         }
     
 
     post {
