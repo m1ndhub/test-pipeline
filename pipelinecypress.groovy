@@ -19,15 +19,18 @@ pipeline {
                 }
             }
         }
-        stage ('Detect SERP changed') {
-                try {
-					build job: 'cypress'
-                } catch (err) {
-                    echo "ngo ..."
+        stage('Detect SERP changed') {
+            steps {
+                script {
+                    try {
+                        build job: 'cypress'
+                    } catch (err) {
+                        echo "Error occurred: $err"
+                    }
                 }
-			}
-         }
-    
+            }
+        }
+    }
 
     post {
         always {
